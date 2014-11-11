@@ -1,4 +1,4 @@
-package com.fyllera.webstore.domain.repository.impl;
+package com.fyllera.webstore.repository.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.fyllera.webstore.domain.repository.impl;
+package com.fyllera.webstore.repository.impl;
 
 import java.util.ArrayList;
 import java.util.List;
