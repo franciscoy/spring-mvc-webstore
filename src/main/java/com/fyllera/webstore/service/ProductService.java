@@ -6,4 +6,5 @@ import com.fyllera.webstore.domain.Product;
 
 public interface ProductService {
 	List<Product> getAllProducts();
+	Product getProductById(String productID);
 }
