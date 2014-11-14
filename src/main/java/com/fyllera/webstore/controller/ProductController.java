@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.MatrixVariable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fyllera.webstore.service.ProductService;
@@ -27,7 +28,7 @@ public class ProductController {
 	}
 
 	@RequestMapping("/all")
-	public ModelAndView allProducts(Model model) {
+	public ModelAndView allProducts() {
 		ModelAndView modelAndView = new ModelAndView();
 
 		modelAndView.addObject("products", productService.getAllProducts());
@@ -45,9 +46,18 @@ public class ProductController {
 	}
 
 	@RequestMapping("/filter/{ByCriteria}")
-	public String getProductsByFilter(@MatrixVariable(pathVar = "ByCriteria") Map<String, List<String>> filterParams,
+	public String getProductsByFilter(
+			@MatrixVariable(pathVar = "ByCriteria") Map<String, List<String>> filterParams,
 			Model model) {
-		model.addAttribute("products",productService.getProductsByFilter(filterParams));
+		model.addAttribute("products",
+				productService.getProductsByFilter(filterParams));
 		return "products";
+	}
+
+	@RequestMapping("/product")
+	public String getProductById(@RequestParam("id") String productId,
+			Model model) {
+		model.addAttribute("product", productService.getProductById(productId));
+		return "product";
 	}
 }
