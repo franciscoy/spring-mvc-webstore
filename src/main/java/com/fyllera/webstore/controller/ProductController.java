@@ -3,6 +3,7 @@ package com.fyllera.webstore.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,16 +19,22 @@ public class ProductController {
 	@RequestMapping
 	public String list(Model model) {
 		model.addAttribute("products", productService.getAllProducts());
-	    return "products";
+		return "products";
 	}
-	
+
 	@RequestMapping("/all")
-    public ModelAndView allProducts(Model model) {
+	public ModelAndView allProducts(Model model) {
 		ModelAndView modelAndView = new ModelAndView();
-		
+
 		modelAndView.addObject("products", productService.getAllProducts());
-		modelAndView.setViewName("products"); 
-		
+		modelAndView.setViewName("products");
+
 		return modelAndView;
-    }
+	}
+
+	@RequestMapping("/{category}")
+	public String getProductsByCategory(Model model, @PathVariable("category") String productCategory) {
+		model.addAttribute("products", productService.getProductsByCategory(productCategory));
+		return "products";
+     }
 }
