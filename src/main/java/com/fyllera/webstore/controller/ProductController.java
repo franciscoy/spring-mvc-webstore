@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.MatrixVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -64,24 +66,41 @@ public class ProductController {
 		model.addAttribute("product", productService.getProductById(productId));
 		return "product";
 	}
-	
+
 	@RequestMapping("/{category}/{price}")
-	public String filterProducts(@PathVariable("category") String productCategory,
+	public String filterProducts(
+			@PathVariable("category") String productCategory,
 			@MatrixVariable(pathVar = "price") Map<String, List<String>> priceParams,
-			@RequestParam("manufacturer") String manufacturer,
-			Model model) {
-		
-		Set<Product> prodsByManufacturer = new HashSet<Product>(productService.getProductsByManufacturer(manufacturer));
-		Set<Product> prodsByCategory = new HashSet<Product>(productService.getProductsByCategory(productCategory));
-		
+			@RequestParam("manufacturer") String manufacturer, Model model) {
+
+		Set<Product> prodsByManufacturer = new HashSet<Product>(
+				productService.getProductsByManufacturer(manufacturer));
+		Set<Product> prodsByCategory = new HashSet<Product>(
+				productService.getProductsByCategory(productCategory));
+
 		BigDecimal priceBottom = new BigDecimal(priceParams.get("low").get(0));
 		BigDecimal priceTop = new BigDecimal(priceParams.get("high").get(0));
-		Set<Product> prodsFilteredByPrice = new HashSet<Product>(productService.getProductsByPriceFilter(priceBottom, priceTop));
-		
+		Set<Product> prodsFilteredByPrice = new HashSet<Product>(
+				productService.getProductsByPriceFilter(priceBottom, priceTop));
+
 		prodsByManufacturer.retainAll(prodsByCategory);
 		prodsByManufacturer.retainAll(prodsFilteredByPrice);
-		
+
 		model.addAttribute("products", prodsByManufacturer);
 		return "products";
+	}
+
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	public String getAddNewProductForm(Model model) {
+		Product newProduct = new Product();
+		model.addAttribute("newProduct", newProduct);
+		return "addProduct";
+	}
+
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public String processAddNewProductForm(
+			@ModelAttribute("newProduct") Product newProduct) {
+		productService.addProduct(newProduct);
+		return "redirect:/products";
 	}
 }

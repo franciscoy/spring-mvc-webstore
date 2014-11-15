@@ -43,4 +43,8 @@ public class ProductServiceImpl implements ProductService {
 			BigDecimal priceTop) {
 		return productRepository.getProductsByPriceFilter(priceBottom, priceTop);
 	}
+
+	public void addProduct(Product product) {
+		productRepository.addProduct(product);
+	}
 }
