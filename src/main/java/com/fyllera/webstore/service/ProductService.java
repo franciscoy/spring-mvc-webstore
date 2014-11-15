@@ -1,5 +1,6 @@
 package com.fyllera.webstore.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,4 +12,6 @@ public interface ProductService {
 	Product getProductById(String productID);
 	List<Product> getProductsByCategory(String category);
 	Set<Product> getProductsByFilter(Map<String, List<String>> filterParams);
+	List<Product> getProductsByManufacturer(String manufacturer);
+	List<Product> getProductsByPriceFilter(BigDecimal priceBottom, BigDecimal priceTop);
 }

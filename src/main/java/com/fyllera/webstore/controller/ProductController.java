@@ -1,7 +1,10 @@
 package com.fyllera.webstore.controller;
 
+import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fyllera.webstore.domain.Product;
 import com.fyllera.webstore.service.ProductService;
 
 @Controller
@@ -59,5 +63,25 @@ public class ProductController {
 			Model model) {
 		model.addAttribute("product", productService.getProductById(productId));
 		return "product";
+	}
+	
+	@RequestMapping("/{category}/{price}")
+	public String filterProducts(@PathVariable("category") String productCategory,
+			@MatrixVariable(pathVar = "price") Map<String, List<String>> priceParams,
+			@RequestParam("manufacturer") String manufacturer,
+			Model model) {
+		
+		Set<Product> prodsByManufacturer = new HashSet<Product>(productService.getProductsByManufacturer(manufacturer));
+		Set<Product> prodsByCategory = new HashSet<Product>(productService.getProductsByCategory(productCategory));
+		
+		BigDecimal priceBottom = new BigDecimal(priceParams.get("low").get(0));
+		BigDecimal priceTop = new BigDecimal(priceParams.get("high").get(0));
+		Set<Product> prodsFilteredByPrice = new HashSet<Product>(productService.getProductsByPriceFilter(priceBottom, priceTop));
+		
+		prodsByManufacturer.retainAll(prodsByCategory);
+		prodsByManufacturer.retainAll(prodsFilteredByPrice);
+		
+		model.addAttribute("products", prodsByManufacturer);
+		return "products";
 	}
 }

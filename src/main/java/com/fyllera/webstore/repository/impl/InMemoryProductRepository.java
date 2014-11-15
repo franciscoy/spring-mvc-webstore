@@ -100,5 +100,27 @@ public class InMemoryProductRepository implements ProductRepository {
 		productsByCategory.retainAll(productsByBrand);
 		return productsByCategory;
 	}
+	
+	public List<Product> getProductsByPriceFilter(BigDecimal priceBottom, BigDecimal priceTop) {
+		List<Product> productsByPriceFilter = new ArrayList<Product>();
+		for (Product product : listOfProducts) {
+			int compareToBottom = product.getUnitPrice().compareTo(priceBottom);
+			int compareToTop = product.getUnitPrice().compareTo(priceTop);
+			if (compareToBottom > 0 && compareToTop < 0) {
+				productsByPriceFilter.add(product);
+			}
+		}
+		return productsByPriceFilter;
+	}
+
+	public List<Product> getProductsByManufacturer(String manufacturer) {
+		List<Product> productsByManufacturer = new ArrayList<Product>();
+		for (Product product : listOfProducts) {
+			if (manufacturer.equalsIgnoreCase(product.getManufacturer())) {
+				productsByManufacturer.add(product);
+			}
+		}
+		return productsByManufacturer;
+	}
 
 }
