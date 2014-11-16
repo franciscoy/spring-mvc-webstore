@@ -8,6 +8,6 @@ This is a repo containing the source code implementation, a webstore, of the boo
 *	[O'Reilly](http://shop.oreilly.com/product/9781783284870.do)
 
 ---
-**Current Chapter done: 3**
+**Current Chapter done: 4**
 
 Feel free to do whatever you like with it :)
