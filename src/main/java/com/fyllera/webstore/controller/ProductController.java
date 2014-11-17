@@ -133,12 +133,24 @@ public class ProductController {
 			}
 		}
 		
+		MultipartFile pdf = newProduct.getPdf();
+		if (pdf != null && !pdf.isEmpty()) {
+			try {
+				pdf.transferTo(new File(rootDirectory
+						+ "resources\\pdf\\"
+						+ newProduct.getProductId() + ".pdf"));
+			} catch (Exception e) {
+				throw new RuntimeException("Product Pdf saving failed", e);
+			}
+		}
+		
 		return "redirect:/products";
 	}
 
 	@InitBinder
 	public void initialiseBinder(WebDataBinder binder) {
 		binder.setDisallowedFields("unitsInOrder", "discontinued");
-		binder.setAllowedFields("productId", "name","unitPrice","description","manufacturer", "category","unitsInStock", "productImage");
+		binder.setAllowedFields("productId", "name","unitPrice","description","manufacturer", "category","unitsInStock", "productImage",
+				"pdf");
 	}
 }
