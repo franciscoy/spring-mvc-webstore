@@ -2,8 +2,13 @@ package com.fyllera.webstore.domain;
 
 import java.math.BigDecimal;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.web.multipart.MultipartFile;
 
+@XmlRootElement
 public class Product {
 	private String productId;
 	private String name;
@@ -15,7 +20,11 @@ public class Product {
 	private long unitsInOrder;
 	private boolean discontinued;
 	private String condition;
+	
+	@JsonIgnore
 	private MultipartFile productImage;
+	
+	@JsonIgnore
 	private MultipartFile pdf;	
 
 	public Product() {
@@ -138,7 +147,8 @@ public class Product {
 	public String toString() {
 		return "Product [productId=" + productId + ", name=" + name + "]";
 	}
-
+	
+	@XmlTransient
 	public MultipartFile getProductImage() {
 		return productImage;
 	}
@@ -146,7 +156,8 @@ public class Product {
 	public void setProductImage(MultipartFile productImage) {
 		this.productImage = productImage;
 	}
-
+	
+	@XmlTransient
 	public MultipartFile getPdf() {
 		return pdf;
 	}

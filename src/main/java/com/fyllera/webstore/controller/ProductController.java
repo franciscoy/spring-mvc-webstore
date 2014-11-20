@@ -133,16 +133,16 @@ public class ProductController {
 			}
 		}
 		
-		MultipartFile pdf = newProduct.getPdf();
-		if (pdf != null && !pdf.isEmpty()) {
-			try {
-				pdf.transferTo(new File(rootDirectory
-						+ "resources\\pdf\\"
-						+ newProduct.getProductId() + ".pdf"));
-			} catch (Exception e) {
-				throw new RuntimeException("Product Pdf saving failed", e);
-			}
-		}
+//		MultipartFile pdf = newProduct.getPdf();
+//		if (pdf != null && !pdf.isEmpty()) {
+//			try {
+//				pdf.transferTo(new File(rootDirectory
+//						+ "resources\\pdf\\"
+//						+ newProduct.getProductId() + ".pdf"));
+//			} catch (Exception e) {
+//				throw new RuntimeException("Product Pdf saving failed", e);
+//			}
+//		}
 		
 		return "redirect:/products";
 	}
