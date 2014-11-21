@@ -10,6 +10,7 @@ import java.util.Set;
 import org.springframework.stereotype.Repository;
 
 import com.fyllera.webstore.domain.Product;
+import com.fyllera.webstore.exception.ProductNotFoundException;
 import com.fyllera.webstore.repository.ProductRepository;
 
 @Repository
@@ -60,7 +61,7 @@ public class InMemoryProductRepository implements ProductRepository {
 			}
 		}
 		if (productById == null) {
-			throw new IllegalArgumentException(
+			throw new ProductNotFoundException(
 					"No products found with the product id: " + productId);
 		}
 		return productById;

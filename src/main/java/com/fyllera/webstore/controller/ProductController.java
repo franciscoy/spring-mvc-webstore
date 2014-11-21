@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.MatrixVariable;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,6 +28,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fyllera.webstore.domain.Product;
+import com.fyllera.webstore.exception.NoProductsFoundUnderCategoryException;
+import com.fyllera.webstore.exception.ProductNotFoundException;
 import com.fyllera.webstore.service.ProductService;
 
 @Controller
@@ -55,8 +58,14 @@ public class ProductController {
 	@RequestMapping("/{category}")
 	public String getProductsByCategory(Model model,
 			@PathVariable("category") String productCategory) {
-		model.addAttribute("products",
-				productService.getProductsByCategory(productCategory));
+		List<Product> products = productService
+				.getProductsByCategory(productCategory);
+
+		if (products == null || products.isEmpty()) {
+			throw new NoProductsFoundUnderCategoryException();
+		}
+
+		model.addAttribute("products", products);
 		return "products";
 	}
 
@@ -122,35 +131,46 @@ public class ProductController {
 		MultipartFile productImage = newProduct.getProductImage();
 		String rootDirectory = request.getSession().getServletContext()
 				.getRealPath("/");
-		
+
 		if (productImage != null && !productImage.isEmpty()) {
 			try {
 				productImage.transferTo(new File(rootDirectory
-						+ "resources\\images\\"
-						+ newProduct.getProductId() + ".png"));
+						+ "resources\\images\\" + newProduct.getProductId()
+						+ ".png"));
 			} catch (Exception e) {
 				throw new RuntimeException("Product Image saving failed", e);
 			}
 		}
-		
-//		MultipartFile pdf = newProduct.getPdf();
-//		if (pdf != null && !pdf.isEmpty()) {
-//			try {
-//				pdf.transferTo(new File(rootDirectory
-//						+ "resources\\pdf\\"
-//						+ newProduct.getProductId() + ".pdf"));
-//			} catch (Exception e) {
-//				throw new RuntimeException("Product Pdf saving failed", e);
-//			}
-//		}
-		
+
+		// MultipartFile pdf = newProduct.getPdf();
+		// if (pdf != null && !pdf.isEmpty()) {
+		// try {
+		// pdf.transferTo(new File(rootDirectory
+		// + "resources\\pdf\\"
+		// + newProduct.getProductId() + ".pdf"));
+		// } catch (Exception e) {
+		// throw new RuntimeException("Product Pdf saving failed", e);
+		// }
+		// }
+
 		return "redirect:/products";
 	}
 
 	@InitBinder
 	public void initialiseBinder(WebDataBinder binder) {
 		binder.setDisallowedFields("unitsInOrder", "discontinued");
-		binder.setAllowedFields("productId", "name","unitPrice","description","manufacturer", "category","unitsInStock", "productImage",
-				"pdf");
+		binder.setAllowedFields("productId", "name", "unitPrice",
+				"description", "manufacturer", "category", "unitsInStock",
+				"productImage", "pdf");
+	}
+
+	@ExceptionHandler(ProductNotFoundException.class)
+	public ModelAndView handleError(HttpServletRequest req, ProductNotFoundException exception) {
+		ModelAndView mav = new ModelAndView(); 
+		mav.addObject("invalidProductId", exception.getProductId()); mav.addObject("exception", exception);
+        mav.addObject("url",req.getRequestURL()+"?"+req.getQueryString());
+        mav.setViewName("productNotFound");
+        
+        return mav; 
 	}
 }
