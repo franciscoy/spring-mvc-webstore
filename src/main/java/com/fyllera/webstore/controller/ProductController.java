@@ -32,6 +32,7 @@ import com.fyllera.webstore.domain.Product;
 import com.fyllera.webstore.exception.NoProductsFoundUnderCategoryException;
 import com.fyllera.webstore.exception.ProductNotFoundException;
 import com.fyllera.webstore.service.ProductService;
+import com.fyllera.webstore.validator.ProductValidator;
 
 @Controller
 @RequestMapping("/products")
@@ -39,6 +40,9 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+    private ProductValidator productValidator;
 
 	@RequestMapping
 	public String list(Model model) {
@@ -166,6 +170,7 @@ public class ProductController {
 		binder.setAllowedFields("productId", "name", "unitPrice",
 				"description", "manufacturer", "category", "unitsInStock",
 				"productImage", "pdf", "language");
+		binder.setValidator(productValidator);
 	}
 
 	@ExceptionHandler(ProductNotFoundException.class)

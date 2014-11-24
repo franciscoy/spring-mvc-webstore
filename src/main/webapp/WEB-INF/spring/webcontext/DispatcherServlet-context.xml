@@ -11,7 +11,8 @@
         http://www.springframework.org/schema/mvc 
         http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 	<context:component-scan base-package="com.fyllera.webstore" />
-	<mvc:annotation-driven enable-matrix-variables="true" validator="validator" />
+	<mvc:annotation-driven enable-matrix-variables="true"
+		validator="validator" />
 	<mvc:resources location="/resources/" mapping="/resource/**" />
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -56,8 +57,19 @@
 		<property name="defaultLocale" value="en" />
 	</bean>
 
-	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
 		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+
+	<bean id="unitsInStockValidator" class="com.fyllera.webstore.validator.UnitsInStockValidator"/>
+
+	<bean id="productValidator" class="com.fyllera.webstore.validator.ProductValidator">
+		<property name="springValidators">
+			<set>
+				<ref bean="unitsInStockValidator" />
+			</set>
+		</property>
 	</bean>
 
 	<mvc:interceptors>
