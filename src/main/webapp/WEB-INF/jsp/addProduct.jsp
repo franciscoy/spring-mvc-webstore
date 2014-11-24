@@ -59,8 +59,8 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-lg-2" for="description"> <spring:message
-							code="addProduct.form.description.label" />
+					<label class="control-label col-lg-2" for="description"> 
+						<spring:message code="addProduct.form.description.label" />
 					</label>
 					<div class="col-lg-10">
 						<form:textarea id="description" path="description" rows="2" />
@@ -82,6 +82,7 @@
 					<div class="col-lg-10">
 						<form:input id="category" path="category" type="text"
 							class="form:input-medium" />
+						<form:errors path="category" cssClass="text-danger" />
 					</div>
 				</div>
 				<div class="form-group">
@@ -91,6 +92,7 @@
 					<div class="col-lg-10">
 						<form:input id="unitsInStock" path="unitsInStock" type="text"
 							class="form:input-medium" />
+						<form:errors path="unitsInStock" cssClass="text-danger" />
 					</div>
 				</div>
 				<div class="form-group">

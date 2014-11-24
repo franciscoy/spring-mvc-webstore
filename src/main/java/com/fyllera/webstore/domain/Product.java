@@ -28,7 +28,11 @@ public class Product {
 	
 	private String description;
 	private String manufacturer;
+	
+	@NotNull(message = "{NotNull.Product.category.validation}")
 	private String category;
+	
+	@Min(value = 1, message = "{Min.Product.unitsInStock.validation}")
 	private long unitsInStock;
 	private long unitsInOrder;
 	private boolean discontinued;
