@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fyllera.webstore.validator.Category;
 import com.fyllera.webstore.validator.ProductId;
 
 @XmlRootElement
@@ -33,6 +34,7 @@ public class Product {
 	private String manufacturer;
 	
 	@NotNull(message = "{NotNull.Product.category.validation}")
+	@Category
 	private String category;
 	
 	@Min(value = 1, message = "{Min.Product.unitsInStock.validation}")
