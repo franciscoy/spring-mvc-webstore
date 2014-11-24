@@ -13,8 +13,11 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fyllera.webstore.validator.ProductId;
+
 @XmlRootElement
 public class Product {
+	@ProductId
 	@Pattern(regexp = "P[0-9]+", message = "{Pattern.Product.productId.validation}")
 	private String productId;
 
