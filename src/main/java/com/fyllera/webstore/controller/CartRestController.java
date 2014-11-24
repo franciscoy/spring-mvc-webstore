@@ -30,7 +30,6 @@ public class CartRestController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody Cart create(@RequestBody Cart cart) {
-		System.out.println("NEW CART + " + cart);
 		return cartService.create(cart);
 	}
 
