@@ -61,6 +61,13 @@
 		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
 			<property name="paramName" value="language" />
 		</bean>
-		<bean class= "com.fyllera.webstore.interceptor.AuditingInterceptor"/>
+		
+		<bean class="com.fyllera.webstore.interceptor.AuditingInterceptor" />
+
+		<bean class="com.fyllera.webstore.interceptor.PromoCodeInterceptor">
+			<property name="promoCode" value="OFF3R" />
+			<property name="errorRedirect" value="invalidPromoCode" />
+			<property name="offerRedirect" value="products" />
+		</bean>
 	</mvc:interceptors>
 </beans>
