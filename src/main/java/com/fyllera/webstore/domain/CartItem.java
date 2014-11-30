@@ -1,8 +1,10 @@
 package com.fyllera.webstore.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class CartItem {
+public class CartItem implements Serializable{
+	private static final long serialVersionUID = 1002L;
 	private Product product;
 	private int quantity;
 	private BigDecimal totalPrice;
@@ -42,6 +44,10 @@ public class CartItem {
 	public void updateTotalPrice() {
 		totalPrice = this.product.getUnitPrice().multiply(
 				new BigDecimal(this.quantity));
+	}
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	@Override

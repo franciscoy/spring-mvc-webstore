@@ -10,21 +10,21 @@
 	<section>
 		<div class="jumbotron">
 			<div class="container">
-				<h1>Customers</h1>
-				<p>All the customers in our store.</p>
+				<h1>Clients</h1>
+				<p>All the clients in our store.</p>
 			</div>
 		</div>
 	</section>
 	<section class="container">
 		<div class="row">
-			<c:forEach items="${customers}" var="customer">
+			<c:forEach items="${clients}" var="client">
 				<div class="col-sm-6 col-md-3" style="padding-bottom: 15px">
 					<div class="thumbnail">
 						<div class="caption">
-							<h3>${customer.name}</h3>
-							<p>ID: ${customer.customerId}</p>
-							<p>Address: ${customer.address}</p>
-							<p>Has bought ${customer.noOfOrdersMade} products</p>
+							<h3>${client.name}</h3>
+							<p>ID: ${client.clientId}</p>
+							<p>Address: ${client.address}</p>
+							<p>Has bought ${client.noOfOrdersMade} products</p>
 						</div>
 					</div>
 				</div>

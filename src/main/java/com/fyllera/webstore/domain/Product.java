@@ -1,5 +1,6 @@
 package com.fyllera.webstore.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.validation.constraints.Digits;
@@ -17,7 +18,9 @@ import com.fyllera.webstore.validator.Category;
 import com.fyllera.webstore.validator.ProductId;
 
 @XmlRootElement
-public class Product {
+public class Product implements Serializable {
+	private static final long serialVersionUID = 1000L;
+	
 	@ProductId
 	@Pattern(regexp = "P[0-9]+", message = "{Pattern.Product.productId.validation}")
 	private String productId;
@@ -186,5 +189,9 @@ public class Product {
 
 	public void setPdf(MultipartFile pdf) {
 		this.pdf = pdf;
+	}
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 }

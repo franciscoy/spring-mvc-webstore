@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fyllera.webstore.domain.Cart;
+import com.fyllera.webstore.exception.InvalidCartException;
 import com.fyllera.webstore.repository.CartRepository;
 import com.fyllera.webstore.service.CartService;
 
@@ -26,5 +27,13 @@ public class CartServiceImpl implements CartService {
 
 	public void delete(String cartId) {
 		cartRepository.delete(cartId);
+	}
+
+	public Cart validate(String cartId) {
+		Cart cart = cartRepository.read(cartId);
+		if (cart == null || cart.getCartItems().size() == 0) {
+			throw new InvalidCartException(cartId);
+		}
+		return cart;
 	}
 }

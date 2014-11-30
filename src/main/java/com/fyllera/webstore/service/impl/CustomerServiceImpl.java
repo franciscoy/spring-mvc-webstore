@@ -5,17 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fyllera.webstore.domain.Customer;
-import com.fyllera.webstore.repository.CustomerRepository;
-import com.fyllera.webstore.service.CustomerService;
+import com.fyllera.webstore.domain.Client;
+import com.fyllera.webstore.repository.ClientRepository;
+import com.fyllera.webstore.service.ClientService;
 
 @Service
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerServiceImpl implements ClientService {
 
 	@Autowired
-	private CustomerRepository customerRepository;
+	private ClientRepository customerRepository;
 	
-	public List<Customer> getAllCustomers() {
-		return customerRepository.getAllCustomers();
+	public List<Client> getAllClients() {
+		return customerRepository.getAllClients();
 	}
 }
